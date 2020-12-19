@@ -1,0 +1,16 @@
+html {
+    height: 100%;
+    width: 100% 100%;
+    opacity:2;
+    background-image:   
+    url(../Photos/group-cute-animals-cartoon-animals-2323913.png),
+    url(../Photos/backgroundmenu2.jpg);
+    background-repeat: repeat-x;
+    background-position: 
+      bottom;
+    background-size: 
+      70%,
+      100% 100%;
+    animation: 50s para infinite linear;
+    }
+

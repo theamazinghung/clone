@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Goldman:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../Project JS101/Home/snake.css">
+    <link rel="stylesheet" href="../Project JS101/Home/background-animals.css">
+    <!-- Jquery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="diemTime">
+        <div id='timer'></div>
+        <hr style="width:90%; margin: 0px;" />
+        <div id="scoreboard"></div>
+    </div>
+
+    <!-- Vẽ box -->
+    <canvas id="snakeboard" width="600" height="600"></canvas>
+    <!-- Thắng -->
+    <div class="myPopup" id="thang" target="_blank">
+        <p class="message">Congratulations!</p>
+        <div class="options">
+            <button class="btn">
+                <a href="../Project JS101/Home/menu.html">Back to menu</a></button>
+            <button class="btn">
+                <a href="../Project JS101/Home/scoreboard.html">Leaderboard</a></button>
+        </div>
+        <!-- Thua -->
+    </div>
+    <div id="thua" class="myPopup" target="_blank">
+        <p class="message">Game over!</p>
+        <div class="options">
+            <button class="btn">
+                <a href="../Project JS101/snake_final_4.html">Try again</a></button>
+            <button class="btn">
+                <a href="../Project JS101/Home/scoreboard.html">Leaderboard</a></button>
+        </div>
+    </div>
+    <!-- Img -->
+    <div id="img" class="container">
+        <!-- <img id="img"> -->
+    </div>
+    <!-- Nhạc ăn mồi -->
+    <audio id="eat" preload="auto">
+        <source src="../Project JS101/Home/music/popup.mp3" type="audio/mp3" />
+        Your browser does not support the audio tag (trình duyệt không hỗ trợ thẻ audio)
+    </audio>
+    <!-- Nhạc lên level -->
+    <audio id="levelupmusic" preload="auto">
+        <source src="../Project JS101/Home/music/Pokemon Level Up Sound Effect - SFX.mp4" type="audio/mp4" />
+        Your browser does not support the audio tag (trình duyệt không hỗ trợ thẻ audio)
+    </audio>
+    <!-- Nhạc thắng -->
+    <audio id="win" preload="auto">
+        <source src="../Project JS101/Home/music/win.mp3" type="audio/mp3" />
+        Your browser does not support the audio tag (trình duyệt không hỗ trợ thẻ audio)
+    </audio>
+    <!-- Nhạc thua -->
+    <audio id="losemusic" preload="auto">
+        <source src="../Project JS101/Home/music/lose.mp3" type="audio/mp3" />
+        Your browser does not support the audio tag (trình duyệt không hỗ trợ thẻ audio)
+    </audio>
+    <!-- Nhạc game -->
+    <audio id="music" loop preload="auto">
+        <source src="../Project JS101/Home/music/The Avengers - Theme Song.mp4" type="audio/mp4" />
+        Your browser does not support the audio tag (trình duyệt không hỗ trợ thẻ audio)
+    </audio>
+    <script>
+
+        const snakeboard = document.getElementById("snakeboard");
+        const snakeboard_ctx = snakeboard.getContext("2d");
+
+        //*********************** VẼ RẮN ****************************
+        let snake = [
+            { x: 40, y: 0 },
+            { x: 20, y: 0 },
+            { x: 0, y: 0 }
+
+        ]
+        const snakeSize = 20;
+        var imgHeadRight = new Image();
+        imgHeadRight.src = "./Home/photos/head/head_right.png";
+        var imgHeadDown = new Image();
+        imgHeadDown.src = "./Home/photos/head/head_down.png";
+        var imgHeadLeft = new Image();
+        imgHeadLeft.src = "./Home/photos/head/head_left.png";
+        var imgHeadUp = new Image();
+        imgHeadUp.src = "./Home/photos/head/head_up.png";
+
+        let body_horizontal = new Image();
+        body_horizontal.src = "./Home/photos/head/body_horizontal.png";
+        let body_vertical = new Image();
+        body_vertical.src = "./Home/photos/head/body_vertical.png";
+
+        let turn_right_down_img = new Image();
+        turn_right_down_img.src = "./Home/photos/head/going_right_down.png";
+        let turn_left_down_img = new Image();
+        turn_left_down_img.src = "./Home/photos/head/going_left_down.png";
+        let turn_right_up_img = new Image();
+        turn_right_up_img.src = "./Home/photos/head/going_right_up.png";
+        let turn_left_up_img = new Image();
+        turn_left_up_img.src = "./Home/photos/head/going_left_up.png";
+
+        // let turn_down, turn_down_img;
+        // let turn_up, turn_up_img;
+        // let turn_left, turn_left_img;
+        // let turn_right, turn_right_img;
+
+        let corners = [];
+        function drawSnake() {
+            if (dx == -snakeSize && dy == 0) {
+                snakeboard_ctx.drawImage(imgHeadLeft, snake[0].x, snake[0].y, snakeSize, snakeSize);
+            }
+            if (dx == 0 && dy == -snakeSize) {
+                snakeboard_ctx.drawImage(imgHeadUp, snake[0].x, snake[0].y, snakeSize, snakeSize);
+            }
+            if (dx == snakeSize && dy == 0) {
+                snakeboard_ctx.drawImage(imgHeadRight, snake[0].x, snake[0].y, snakeSize, snakeSize);
+            }
+            if (dx == 0 && dy == snakeSize) {
+                snakeboard_ctx.drawImage(imgHeadDown, snake[0].x, snake[0].y, snakeSize, snakeSize);
+            }
+            // Draw body
+            // for (i = 1; i < snake.length; i++) {
+            //     drawSnakePart(snake[i]);
+            // }
+
+            // for (i = 1; i < snake.length; i++) {
+            //     snakeboard_ctx.drawImage(body_horizontal, snake[i].x, snake[i].y, snakeSize, snakeSize);
+            // }
+            for (i = 1; i < snake.length; i++) {
+                if (snake[i].x == snake[i - 1].x) {
+                    snakeboard_ctx.drawImage(body_vertical, snake[i].x, snake[i].y, snakeSize, snakeSize);
+                }
+                if (snake[i].y == snake[i - 1].y) {
+                    snakeboard_ctx.drawImage(body_horizontal, snake[i].x, snake[i].y, snakeSize, snakeSize);
+                }
+            }
+
+            let corner;
+
+            for (i = 0; i < snake.length - 2; i++) {
+                let deltaX = snake[i].x - snake[i + 2].x;
+                let deltaY = snake[i].y - snake[i + 2].y;
+
+                if (deltaX == 20 && deltaY == 20) {
+                    if (snake[i].x > snake[i + 1].x) {
+                        snakeboard_ctx.drawImage(turn_right_up_img, snake[i + 1].x, snake[i + 1].y, snakeSize, snakeSize);
+                    }
+                    if (snake[i].y > snake[i + 1].y) {
+                        snakeboard_ctx.drawImage(turn_left_down_img, snake[i + 1].x, snake[i + 1].y, snakeSize, snakeSize);
+                    }
+                    corner = { x: snake[i + 1].x, y: snake[i + 1].y };
+                    corners.push(corner);
+                }
+                if (deltaX == 20 && deltaY == -20) {
+                    if (snake[i].y < snake[i + 1].y) {
+                        snakeboard_ctx.drawImage(turn_left_up_img, snake[i + 1].x, snake[i + 1].y, snakeSize, snakeSize);
+                    }
+                    if (snake[i].x > snake[i + 1].x) {
+                        snakeboard_ctx.drawImage(turn_right_down_img, snake[i + 1].x, snake[i + 1].y, snakeSize, snakeSize);
+                    }
+                    corner = { x: snake[i + 1].x, y: snake[i + 1].y };
+                    corners.push(corner);
+                }
+                if (deltaX == -20 && deltaY == 20) {
+                    if (snake[i].y > snake[i + 1].y) {
+                        snakeboard_ctx.drawImage(turn_right_down_img, snake[i + 1].x, snake[i + 1].y, snakeSize, snakeSize);
+                    }
+                    if (snake[i].x < snake[i + 1].x) {
+                        snakeboard_ctx.drawImage(turn_left_up_img, snake[i + 1].x, snake[i + 1].y, snakeSize, snakeSize);
+                    }
+                    corner = { x: snake[i + 1].x, y: snake[i + 1].y };
+                    corners.push(corner);
+                }
+                if (deltaX == -20 && deltaY == -20) {
+                    if (snake[i].x < snake[i + 1].x) {
+                        snakeboard_ctx.drawImage(turn_left_down_img, snake[i + 1].x, snake[i + 1].y, snakeSize, snakeSize);
+                    }
+                    if (snake[i].y < snake[i + 1].y) {
+                        snakeboard_ctx.drawImage(turn_right_up_img, snake[i + 1].x, snake[i + 1].y, snakeSize, snakeSize);
+                    }
+                    corner = { x: snake[i + 1].x, y: snake[i + 1].y };
+                    corners.push(corner);
+                }
+            }
+        }
+        // Draw one snake part
+        function drawSnakePart(snakePart) {
+            // // Set the colour of the snake [i]
+            // snakeboard_ctx.fillStyle = "green";
+            // // Set the border colour of the snake [i]
+            // snakeboard_ctx.strokestyle = "black";
+            // // Draw a "filled" rectangle to represent the snake [i] at the coordinates
+            // // the [i] is located
+            // // snakeboard_ctx.fillRect(snake[i].x, snake[i].y, snakeSize, snakeSize);
+            // // // Draw a border around the snake [i]
+            // // snakeboard_ctx.strokeRect(snake[i].x, snake[i].y, snakeSize, snakeSize);
+
+            // snakeboard_ctx.beginPath();
+            // snakeboard_ctx.arc(snake[i].x + 10, snake[i].y + 10, snakeSize / 2, 0, 2 * Math.PI);
+            // snakeboard_ctx.fill();
+
+
+            // vẽ góc cua
+            if (snake[i].x == turn_down.x && snake[i].y == turn_down.y) {
+                snakeboard_ctx.drawImage(turn_down_img, snake[i].x, snake[i].y, snakeSize, snakeSize);
+            }
+            if (snake[i].x == turn_up.x && snake[i].y == turn_up.y) {
+                snakeboard_ctx.drawImage(turn_up_img, snake[i].x, snake[i].y, snakeSize, snakeSize);
+            }
+            if (snake[i].x == turn_left.x && snake[i].y == turn_left.y) {
+                snakeboard_ctx.drawImage(turn_left_img, snake[i].x, snake[i].y, snakeSize, snakeSize);
+            }
+            if (snake[i].x == turn_right.x && snake[i].y == turn_right.y) {
+                snakeboard_ctx.drawImage(turn_right_img, snake[i].x, snake[i].y, snakeSize, snakeSize);
+            }
+        }
+        //******************** RẮN TỰ ĐI THẲNG **************************
+        let dx = snakeSize;
+        let dy = 0;
+        function move_snake() {
+            // Create the new Snake's head
+            const head = { x: snake[0].x + dx, y: snake[0].y + dy };
+            // Add the new head to the beginning of snake body
+            snake.unshift(head);
+            if (eatFood()) {
+                return;
+            } else {
+                snake.pop();
+            }
+        }
+
+        let background = new Image();
+        background.src = "https://wallpapercave.com/wp/wp2409705.jpg";
+        function clear_board() {
+            // //  Select the colour to fill the drawing
+            // snakeboard_ctx.fillStyle = "white";
+            // //  Select the colour for the border of the canvas
+            // snakeboard_ctx.strokestyle = "black";
+            // // Draw a "filled" rectangle to cover the entire canvas
+            // snakeboard_ctx.fillRect(0, 0, snakeboard.width, snakeboard.height);
+            // // Draw a "border" around the entire canvas
+            // snakeboard_ctx.strokeRect(0, 0, snakeboard.width, snakeboard.height);
+            snakeboard_ctx.drawImage(background, 0, 0, snakeboard.width, snakeboard.height);
+        }
+
+        //************************ ĐIỀU HƯỚNG RẮN ****************************
+        let changing_direction = false;
+
+        function change_direction(event) {
+            const LEFT_KEY = 37;
+            const RIGHT_KEY = 39;
+            const UP_KEY = 38;
+            const DOWN_KEY = 40;
+            if (changing_direction) return;
+            changing_direction = true;
+            const keyPressed = event.keyCode;
+            const goingUp = dy === -snakeSize;
+            const goingDown = dy === snakeSize;
+            const goingRight = dx === snakeSize;
+            const goingLeft = dx === -snakeSize;
+            if (keyPressed === LEFT_KEY && !goingRight) {
+
+                dx = -snakeSize;
+                dy = 0;
+            }
+            if (keyPressed === UP_KEY && !goingDown) {
+
+                dx = 0;
+                dy = -snakeSize;
+            }
+            if (keyPressed === RIGHT_KEY && !goingLeft) {
+
+                dx = snakeSize;
+                dy = 0;
+            }
+            if (keyPressed === DOWN_KEY && !goingUp) {
+
+                dx = 0;
+                dy = snakeSize;
+            }
+        }
+        document.addEventListener("keydown", change_direction);
+
+        //************************ TẠO MỒI *************************
+        let words;
+        let menu = [
+            {
+                name: "animal",
+                element: [
+                    {
+                        name: "cat",
+                        img_url: './Home/photos/Animals/cat.jpg'
+                    },
+                    {
+                        name: "dog",
+                        img_url: './Home/photos/Animals/dog.jpg'
+                    },
+                    {
+                        name: "elephant",
+                        img_url: './Home/photos/Animals/elephant.jpg'
+                    },
+                    {
+                        name: "dinosaur",
+                        img_url: './Home/photos/Animals/dinosaur.jpg'
+                    },
+                    {
+                        name: "rhinoceros",
+                        img_url: './Home/photos/Animals/rhinoceros.jpg'
+                    }
+                ]
+            },
+
+            {
+                name: "food",
+                element: [
+                    {
+                        name: "pizza",
+                        img_url: './Home/photos/food/pizza.png'
+                    },
+                    {
+                        name: "salad",
+                        img_url: './Home/photos/food/salad.jpg'
+                    },
+                    {
+                        name: "steak",
+                        img_url: './Home/photos/food/steak.jpg'
+                    },
+                    {
+                        name: "sausage",
+                        img_url: './Home/photos/food/sausage.jpg'
+                    },
+                    {
+                        name: "popcorn",
+                        img_url: './Home/photos/food/popcorn.jpg'
+                    }
+                ]
+            },
+            {
+                name: "clothes",
+                element: [
+                    {
+                        name: "hat",
+                        img_url: './Home/photos/Clothes/hat.jpg'
+                    },
+                    {
+                        name: "shirt",
+                        img_url: './Home/photos/Clothes/shirt.jpg'
+                    },
+                    {
+                        name: "skirt",
+                        img_url: './Home/photos/Clothes/skirt.jpg'
+                    },
+                    {
+                        name: "jacket",
+                        img_url: './Home/photos/Clothes/jacket.jpg'
+                    },
+                    {
+                        name: "trousers",
+                        img_url: './Home/photos/Clothes/trousers.jpg'
+                    }
+                ]
+            },
+            {
+                name: "weather",
+                element: [
+                    {
+                        name: "rainy",
+                        img_url: './Home/photos/weather/rainy.jpg'
+                    },
+                    {
+                        name: "windy",
+                        img_url: './Home/photos/weather/windy.jpg'
+                    },
+                    {
+                        name: "sunny",
+                        img_url: './Home/photos/weather/sunny.jpg'
+                    },
+                    {
+                        name: "foggy",
+                        img_url: './Home/photos/weather/foggy.jpg'
+                    },
+                    {
+                        name: "stormy",
+                        img_url: './Home/photos/weather/stormy.jpg'
+                    }
+                ]
+            },
+            {
+                name: "house",
+                element: [
+                    {
+                        name: "door",
+                        img_url: './Home/photos/house/door.jpg'
+                    },
+                    {
+                        name: "sink",
+                        img_url: './Home/photos/house/sink.jpg'
+                    },
+                    {
+                        name: "kitchen",
+                        img_url: './Home/photos/house/kitchen.jpg'
+                    },
+                    {
+                        name: "television",
+                        img_url: './Home/photos/house/television.jpg'
+                    },
+                    {
+                        name: "microwave",
+                        img_url: './Home/photos/house/microwave.jpg'
+                    }
+                ]
+            },
+            {
+                name: "transport",
+                element: [
+                    {
+                        name: "car",
+                        img_url: './Home/photos/transport/car.jpg'
+                    },
+                    {
+                        name: "train",
+                        img_url: './Home/photos/transport/train.jpg'
+                    },
+                    {
+                        name: "plane",
+                        img_url: './Home/photos/transport/plane.jpg'
+                    },
+                    {
+                        name: "bicycle",
+                        img_url: './Home/photos/transport/bicycle.jpg'
+                    },
+                    {
+                        name: "helicopter",
+                        img_url: './Home/photos/transport/helicopter.jpg'
+                    }
+                ]
+            }
+
+        ]
+        //*********************Chon chu de ****************
+        let chude = localStorage.getItem("selected");
+        for (i = 0; i < menu.length; i++) {
+            if (chude == menu[i].name) {
+                words = menu[i].element;
+                console.log(words);
+            }
+        }
+        let level = 1;
+        let food = [];
+        function random_food(min, max) {
+
+            return Math.round((Math.random() * (max - min) + min) / snakeSize) * snakeSize;
+        }
+        // Hàm check Food trùng với thân rắn
+        function food_overlap_snake(x_coor, y_coor) {
+            for (n = 0; n < snake.length; n++) {
+                if (x_coor == snake[n].x && y_coor == snake[n].y) {
+                    return true
+                }
+            }
+        }
+        // Hàm check các Food gen ra không trùng nhau
+        function food_overlap_food(coordX, coordY) {
+            for (i = 0; i < food.length; i++) {
+                if (coordX == food[i].x && coordY == food[i].y) {
+                    return true;
+                }
+            }
+        }
+        // Hàm check food không nằm trên đường đi hiện tại của rắn
+        function food_on_way(x_coor, y_coor) {
+            for (n = 0; n < snake.length; n++) {
+                if (x_coor == snake[n].x || y_coor == snake[n].y) {
+                    return true;
+                }
+            }
+        }
+
+        function gen_food() {
+            let arr = words[level - 1].name.split('');
+            // let img = document.getElementById('img');
+            // img.setAttribute('src', words[level - 1].img_url);
+            $("#img").css("background", `url(${words[level - 1].img_url}) no-repeat center center/cover`)
+            for (i = 0; i < arr.length; i++) {
+                let moi = new Object();
+                moi.letter = arr[i];
+                do {
+                    moi.x = random_food(0, snakeboard.width - snakeSize);
+                    moi.y = random_food(0, snakeboard.height - snakeSize);
+                } while (food_overlap_snake(moi.x, moi.y) || food_overlap_food(moi.x, moi.y) || food_on_way(moi.x, moi.y));
+                moi.isEaten = false;
+                food.push(moi);
+            }
+            for (i = 0; i < food.length; i++) {
+                console.log(food[i]);
+            }
+            clearInterval(timer);
+            count_down();
+        }
+
+        gen_food();
+
+        function drawFood() {
+            for (i = 0; i < food.length; i++) {
+                if (food[i].isEaten == false) {
+                    snakeboard_ctx.fillStyle = '#abc';
+                    snakeboard_ctx.strokestyle = '#000000';
+                    snakeboard_ctx.fillRect(food[i].x, food[i].y, snakeSize, snakeSize);
+                    snakeboard_ctx.strokeRect(food[i].x, food[i].y, snakeSize, snakeSize);
+                    snakeboard_ctx.font = "20px Arial";
+                    snakeboard_ctx.textAlign = "center";
+                    snakeboard_ctx.textBaseline = "top";
+                    snakeboard_ctx.fillStyle = "#000000";
+                    snakeboard_ctx.fillText(food[i].letter.toUpperCase(), food[i].x + 10, food[i].y + 1);
+                }
+            }
+        }
+
+        // ****************************** ĐẾM NGƯỢC ***********************************
+        var timer, sec;
+        function count_down() {
+            sec = 30;
+            $("#timer").html(`${sec + "s"}`);
+            timer = setInterval(function () {
+                sec--;
+                $("#timer").html(`${sec + "s"}`);
+                // document.getElementById('timer').innerHTML = + sec + "s";
+                if (sec == 0) {
+                    answer = '';
+                    food = [];
+                    score -= 10;
+                    gen_food();
+                }
+                return sec;
+            }, 1000)
+        }
+
+
+        //************************ ĂN MỒI *************************
+        let answer = "";
+        let foodEaten = 0;
+        var x = document.getElementById("eat");
+        function eatFood() {
+            for (i = 0; i < food.length; i++) {
+                if (snake[0].x == food[i].x && snake[0].y == food[i].y && food[i].isEaten == false) {
+                    answer = answer.concat(food[i].letter);
+                    console.log(answer);
+                    food[i].isEaten = true;
+                    x.play();
+                    return true;
+                }
+            }
+        }
+
+        //************************* ĐIỂM **************************
+        var score = 0;
+        $('#scoreboard').text(score);
+
+        let award = 0;
+        function scoreUp() {
+            award += 10;
+            score += award;
+        }
+        function scoreDown() {
+            score -= 5;
+
+        }
+        function updateScoreboard() {
+            $('#scoreboard').text(score);
+        }
+
+        //************************ LÊN LEVEL ***********************
+        var a = document.getElementById("levelupmusic");
+        function levelUp() {
+            //LvlUp
+            for (i = 0; i < words.length; i++) {
+                if (answer == words[i].name && level < words.length) {
+                    level++;
+                    answer = '';
+                    food = [];
+                    score += sec;
+                    scoreUp();
+                    // console.log("Sec", sec);
+                    console.log(score);
+
+                    //Reset HINT
+                    // clearInterval(changeAttribute);
+                    if (time > 0) {
+                        clearInterval(changeAttribute);
+                    } else if (time == 0) {
+                        time = 0;
+                        $('.container').removeClass('added-class');
+                    }
+
+                    hintValue = 300;
+                    varValue.style.setProperty('--hint', `${hintValue}px`);
+                    hint();
+
+                    //Gen food moi
+                    gen_food();
+                    a.play();
+                    return true;
+                }
+            }
+            //Choi lai level vua sai va bi tru diem
+            if (answer != words[level - 1].name && answer.split('').length == food.length) {
+                answer = '';
+                food = [];
+                scoreDown();
+                gen_food();
+                console.log(score);
+                return false;
+            }
+        }
+
+        //************************het game************************
+        function lose() {
+            //CHẠM TƯỜNG
+            if (snake[0].x > snakeboard.width - snakeSize || snake[0].y > snakeboard.height - snakeSize || snake[0].x < 0 || snake[0].y < 0) {
+                return true;
+            }
+            //CẮN VÀO THÂN
+            for (i = 1; i < snake.length; i++) {
+                if (snake[0].x == snake[i].x && snake[0].y == snake[i].y) {
+                    return true;
+                }
+            }
+            //
+            for (i = 1; i < words.length; i++) {
+                if (answer == words[i].name && level == words.length) {
+                    return false;
+                }
+            }
+        }
+
+
+
+        //*********************** CHẠY GAME ***********************
+        var b = document.getElementById("losemusic");
+        var nhac = document.getElementById("music");
+        var win = document.getElementById("win");
+
+        // ***********HINT*************************
+        // Pixel to Number
+        let varValue = document.querySelector(":root");
+        let hintValue = parseInt(getComputedStyle(varValue).getPropertyValue('--hint'), 10);
+        let time;
+        let changeAttribute;
+        function hint() {
+            time = 15;
+            changeAttribute = setInterval(function () {
+                time -= 3;
+                hintValue -= 60;
+
+                varValue.style.setProperty('--hint', `${hintValue}px`);
+
+                if (time == 0) {
+                    $('.container').addClass('added-class');
+                    console.log("nope");
+                    clearInterval(changeAttribute);
+                } else if (time > 0) {
+                    console.log(time);
+                    $("#hint").css("box-shadow", `inset var(--hint) 0px 150px rgba(0, 0, 0, 0.5)`);
+                }
+            }, 3000);
+        }
+        hint();
+
+
+
+        //**************************** LƯU ĐIỂM ************************
+        let leaderboard;
+        function leader_board() {
+            leaderboard = JSON.parse(localStorage.getItem("leaderboard"));
+            if (leaderboard[leaderboard.length - 1].playerScore < score) {
+                leaderboard[leaderboard.length - 1].playerScore = score;
+            }
+
+            leaderboard.sort(function (b, a) {
+                return a.playerScore - b.playerScore;
+            });
+
+            localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
+            console.log(leaderboard);
+        }
+
+        // ************************ MAIN **************************
+        var main = setInterval(function onTick() {
+            nhac.play();
+            changing_direction = false;
+            clear_board();
+            levelUp();
+            drawFood();
+            drawSnake();
+            eatFood();
+            updateScoreboard();
+            if (lose()) {
+                // location.reload();
+                nhac.pause();
+                b.play();
+                let popup = document.getElementById('thua');
+                popup.style.visibility = 'visible';
+                leader_board();
+                clearInterval(timer);
+                clearInterval(changeAttribute);
+                clearInterval(main);
+                return;
+            } else if (lose() == false) {
+                scoreUp();
+                score += sec;
+                // console.log("Sec", sec);
+                console.log(score);
+                updateScoreboard();
+                clearInterval(timer);
+                clearInterval(changeAttribute);
+                //Music
+                win.play();
+                nhac.pause();
+                leader_board();
+                clearInterval(main);
+                //Man hinh Win
+                let popup = document.getElementById('thang');
+                popup.style.visibility = 'visible';
+                return;
+            }
+            move_snake();
+        }, 100)
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="../home.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nerko+One&display=swap" rel="stylesheet">
+    <style>
+        .leaderboard {
+            justify-content: center;
+            align-items: center;
+            margin-left: 80px;
+            margin-right: 80px;
+            text-align: center;
+            background: beige;
+            border: rgb(149, 119, 63) 20px inset;
+        }
+
+        @import url(https://fonts.googleapis.com/css?family=Signika:700,300,600);
+
+        #bang {
+            justify-content: center;
+            display: flex;
+            align-items: center;
+            margin-left: 40px;
+            margin-right: 40px;
+            text-align: center;
+            vertical-align: top;
+            overflow: hidden;
+            font-size: 40px;
+            font: bold 7.5vw/1.6 'Signika', sans-serif;
+        }
+
+        #bang span {
+            display: inline-block;
+            animation: float .2s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: none;
+            }
+
+            33% {
+                transform: translateY(-1px) rotate(-2deg);
+            }
+
+            66% {
+                transform: translateY(1px) rotate(2deg);
+            }
+        }
+
+        #ten:hover span {
+            animation: bounce .6s;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translate(0);
+            }
+
+            25% {
+                transform: rotateX(20deg) translateY(2px) rotate(-3deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(3deg) scale(1.1);
+            }
+        }
+
+        span:nth-child(4n) {
+            color: hsl(50, 75%, 55%);
+            text-shadow: 1px 1px hsl(50, 75%, 45%), 2px 2px hsl(50, 45%, 45%), 3px 3px hsl(50, 45%, 45%), 4px 4px hsl(50, 75%, 45%);
+        }
+
+        span:nth-child(4n-1) {
+            color: hsl(135, 35%, 55%);
+            text-shadow: 1px 1px hsl(135, 35%, 45%), 2px 2px hsl(135, 35%, 45%), 3px 3px hsl(135, 35%, 45%), 4px 4px hsl(135, 35%, 45%);
+        }
+
+        span:nth-child(4n-2) {
+            color: hsl(155, 35%, 60%);
+            text-shadow: 1px 1px hsl(155, 25%, 50%), 2px 2px hsl(155, 25%, 50%), 3px 3px hsl(155, 25%, 50%), 4px 4px hsl(140, 25%, 50%);
+        }
+
+        span:nth-child(4n-3) {
+            color: hsl(30, 65%, 60%);
+            text-shadow: 1px 1px hsl(30, 45%, 50%), 2px 2px hsl(30, 45%, 50%), 3px 3px hsl(30, 45%, 50%), 4px 4px hsl(30, 45%, 50%);
+        }
+
+        table {
+            margin-left: 10%;
+            margin-right:10%;
+            border-collapse: collapse;
+        }
+
+        .so {
+            width: 15%;
+        }
+
+        #top1,
+        #top2,
+        #top3 {
+            width: 50%;
+        }
+
+        td {
+            color: black;
+            font-size: 40px;
+            height: 50px;
+            border-top: black 2px solid;
+            border-bottom: solid black 2px;
+            justify-content: center;
+        }
+
+        tr:hover {
+            background-color: rgba(243, 86, 86, 0.924);
+            transform: scale(1);
+        }
+
+        .logo {
+            margin-top: 5px;
+            display: inline;
+            width: 30%;
+            height: auto;
+            border-radius: 50%;
+            background-color: rgb(233, 233, 116);
+        }
+
+        #picBG {
+            padding: 5px;
+        }
+
+        .btn {
+            font-size: inherit;
+            background: white;
+            margin-top: 10px;
+            padding: 0.3rem 3.4rem;
+            border: 10px outset rgba(114, 83, 17, 0.924);
+            margin-right: 2.6rem;
+            box-shadow: 0 0 0 black;
+            transition: all 0.2s;
+            font-size: 50px;
+
+        }
+
+        .btn:hover {
+            box-shadow: 0.4rem 0.4rem 0 black;
+            transform: translate(-0.4rem, -0.4rem);
+
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- Nhạc nền -->
+    <audio loop preload="auto" id="nhacnen"
+        src="../Music/Christmas & New Year 2021 Background Music - Free For Use (mp3cut.net).mp3">
+    </audio>
+    <!-- Heading -->
+    <h1 id="heading">
+        LEARN WITH BUBU
+    </h1>
+    <!-- rắn ăn chữ -->
+    <div class="box1">
+        <img id="ran1" src="../Photos/snake gogo.png">
+        <div class="text">
+            a
+        </div>
+        <div class="text">
+            p
+        </div>
+        <div class="text">
+            p
+        </div>
+        <div class="text">
+            l
+        </div>
+        <div class="text">
+            e
+        </div>
+    </div>
+    <div class="leaderboard">
+        <div id="bang">
+            <span>L</span><span>E</span><span>A</span><span>D</span><span>E</span><span>R</span><span>B</span><span>O</span><span>A</span><span>R</span><span>D </span>
+        </div>
+        <table>
+            <tr>
+                <td class="so">
+                    <div id="scoretop1"></div>
+                    <img id="picBG" class="logo" src="../Photos/winner.png">
+                </td>
+                <td id="top1">
+                </td>
+            </tr>
+            <tr>
+                <td class="so">
+                    <div id="scoretop2"></div>
+                    <img style="width:35%" class="logo" src="../Photos/2.png">
+                </td>
+                <td id='top2'>
+                </td>
+            </tr>
+            <tr>
+                <td class="so">
+                    <div id="scoretop3"></div>
+                    <img style="width:35%" class="logo" src="../Photos/cute snake.png">
+                </td>
+                <td id="top3">
+                </td>
+            </tr>
+        </table>
+    </div>
+    <button class="btn">
+        <a href="../Menu/menu.html">Back to menu</a></button>
+    <button class="btn">
+        <a href="../Congratulations/thanks.html">Quit</a></button>
+    <script>
+        var music = $("#nhacnen")[0]
+        $("body")
+            .mouseover(function () {
+                music.play();
+            });
+        let leaderboard = JSON.parse(localStorage.getItem("leaderboard"));
+        if (leaderboard.length >= 3) {
+            for (i = 0; i < 3; i++) {
+                $(`#scoretop${i + 1}`).html(JSON.parse(localStorage.getItem("leaderboard"))[i].playerScore);
+                $(`#top${i + 1}`).html(JSON.parse(localStorage.getItem("leaderboard"))[i].playerName);
+            }
+        } else if (leaderboard.length == 2) {
+            for (i = 0; i < 2; i++) {
+                $(`#scoretop${i + 1}`).html(JSON.parse(localStorage.getItem("leaderboard"))[i].playerScore);
+                $(`#top${i + 1}`).html(JSON.parse(localStorage.getItem("leaderboard"))[i].playerName);
+            }
+        } else if (leaderboard.length == 1) {
+            $(`#scoretop1`).html(leaderboard[0].playerScore);
+            $(`#top1`).html(leaderboard[0].playerName);
+        }
+
+    </script>
+</body>
+
+</html>

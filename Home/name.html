@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Noto+Sans:400,400i,700,700i&subset=greek-ext');
+
+        body {
+            background-image: url("../Home/Photos/name-background.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            font-family: 'Noto Sans', sans-serif;
+        }
+
+        .text-center {
+            color: #fff;
+            text-transform: uppercase;
+            font-size: 23px;
+            margin: -50px 0 80px 0;
+            display: block;
+            text-align: center;
+        }
+
+        .box {
+            position: absolute;
+            left: 50%;
+            top: 65%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(32, 143, 47, 0.89);
+            border-radius: 3px;
+            padding: 70px 100px;
+        }
+
+        .input-container {
+            position: relative;
+            margin-bottom: 25px;
+            color: black;
+        }
+
+        .input-container input {
+            border: 0;
+            border-bottom: 1px solid rgb(212, 216, 4);
+            background: transparent;
+            width: 100%;
+            padding: 8px 0 5px 0;
+            font-size: 16px;
+            color: #111;
+        }
+
+        .input-container input:focus {
+            border: none;
+            outline: none;
+            border-bottom: 1px solid #3ce7e7;
+        }
+
+        .btn {
+            color: rgb(20, 20, 20);
+            background-color: #e7e43c;
+            outline: none;
+            border: 0;
+            padding: 10px 20px;
+            text-transform: uppercase;
+            margin-top: 50px;
+            border-radius: 2px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .valid {
+            color: white;
+            border-bottom: 1px solid white;
+        }
+
+        .invalid {
+            color: red;
+            border-bottom: 1px solid red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <form>
+            <span class="text-center">enter you nickname</span>
+            <div class="input-container">
+                <input id="name" type="text" placeholder="Enter your name!" />Enter your nickname!
+                <p id="message" style="visibility: hidden;"></p>
+            </div>
+            <a href="./Menu/menu.html">
+                <button id="doneBtn" type="button" class="btn">Done</button>
+            </a>
+        </form>
+    </div>
+    <script>
+        let leaderboard;
+        $("#name").blur(function () {
+            if (leaderboard = JSON.parse(localStorage.getItem("leaderboard"))) {
+                for (i = 0; i < leaderboard.length; i++) {
+                    if (leaderboard[i].playerName == $('#name').val()) {
+                        $("#message").html("this nickname has been used !");
+                        $("#message").addClass("invalid");
+                        $("#message").removeClass("valid");
+                        $("#message").css("visibility", "visible");
+                        return;
+                    } else {
+                        continue;
+                    }
+                }
+                $("#message").html("You can use this nickname !");
+                $("#message").addClass("valid");
+                $("#message").removeClass("invalid");
+                $("#message").css("visibility", "visible");
+            }
+        })
+
+        $('#doneBtn').click(function () {
+            if (localStorage.getItem("leaderboard") == null) {
+                leaderboard = [];
+            } else {
+                leaderboard = JSON.parse(localStorage.getItem("leaderboard"));
+            }
+            let player = { playerName: $('#name').val(), playerScore: 0 };
+            leaderboard.push(player);
+            localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
+        });
+
+    </script>
+</body>
+
+</html>

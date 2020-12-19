@@ -1,0 +1,14 @@
+table{
+    margin-left:120px;
+     margin-right: 700px;
+     border-collapse:collapse;
+     font-size: 72px;
+}
+th{
+
+
+    background: -webkit-linear-gradient(#eee, #333);
+
+    -webkit-text-fill-color: transparen;
+     background-color: black ;
+}

@@ -1,0 +1,58 @@
+body {
+    color:black;
+    font-family: "Questrial", sans-serif;
+    background-color: #84c589;
+    background-image: linear-gradient(
+        45deg,
+        #128012 25%,
+        transparent 25%,
+        transparent 75%,
+        #128012 75%,
+        #128012
+      ),
+      linear-gradient(
+        -45deg,
+        #128012 25%,
+        transparent 25%,
+        transparent 75%,
+        #128012 75%,
+        #128012
+      );
+    background-size: 60px 60px;
+    background-position: 0 0;
+    animation: slide 4s infinite linear;
+  }
+  
+  @keyframes slide {
+    from {
+      background-position: 0 0;
+    }
+  
+    to {
+      background-position: -120px 60px;
+    }
+  }
+  .modal {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.6rem 3rem;
+    border: 3px solid black;
+    border-radius: 5px;
+    background: white;
+    box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+  .message {
+    font-family: 'Pattaya', sans-serif;
+    width: 800px;
+    text-align:center;
+    letter-spacing: 2px;
+    font-size:60px;
+    margin-bottom: 1.6rem;
+    margin-top: 10px;
+  }

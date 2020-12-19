@@ -1,0 +1,12 @@
+body {
+    
+    background-color: #F4C52F;
+    background-image: url(../Photos/background-weather.png);
+    background-size: cover;
+    background-repeat: repeat;
+    animation: animatedBackground 75s linear infinite;
+  }
+  @keyframes animatedBackground {
+    from { background-position: 0; }
+    to { background-position: 3000px; }
+  }

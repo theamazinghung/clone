@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="./Home/home.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Langar&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nerko+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Goldman&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <p id="heading">
+        LEARN WITH BUBU
+    </p>
+    <!-- rắn ăn chữ -->
+    <div class="box1">
+        <img id="ran1" src="./Home/Photos/snake gogo.png">
+        <div class="text">
+            a
+        </div>
+        <div class="text">
+            p
+        </div>
+        <div class="text">
+            p
+        </div>
+        <div class="text">
+            l
+        </div>
+        <div class="text">
+            e
+        </div>
+    </div>
+    <!-- How to play -->
+    <div class="box2" id="how">
+        <div class="popup" onclick="myFunction()">
+            <img id="pic" src="./Home/Photos/rangat.gif">
+            <div id="text">How to play</div>
+            <div class="popuptext" id="myPopup">Choose your language!
+                <a href="./Home/How to play/howtoplayvn.html">
+                    <div class="button-container">
+                        <p class="mas">Tiếng Việt</p>
+                        <button id='work' type="button" name="Hover">Tiếng Việt</button>
+                    </div>
+                </a>
+                <a href="Home/How to play/howtoplayEng.html">
+                    <div class="button-container">
+                        <p class="mas">English</p>
+                        <button type="button" name="Hover">English</button>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Play -->
+    <div class="box2">
+        <a href="./Home/name.html">
+            <img id="pic" src="./Home/Photos/bookworm-fixed.png">
+            <div id="text"> Let's play!!</div>
+        </a>
+    </div>
+    <!-- Tác giả  -->
+    <div style="display: block; ; margin-top:50px; ">
+        <div style="font-size: 50px; background-color: khaki;font-family: 'Langar', cursive;">Game Developers &
+            Designers</div>
+        <div style="display: inline-block;margin-left:0px; ">
+            <img style="width:50%" src="Home/Photos/anh duc.png">
+            <div id="name">Duc Cao </div>
+        </div>
+        <div style="display: inline-block; ">
+            <img style="width:50%" src="Home/Photos/anh hung.png">
+            <div id="name">Khac Hung</div>
+        </div>
+        <div style="display: inline-block;">
+            <img style="width:50%" src="Home/Photos/linh.png">
+            <div id="name"> Hoai Linh </div>
+        </div>
+
+        <div
+            style="border-radius:20%;border: 5px outset green;font-family: 'Langar', cursive; margin-top:20px;font-size: 40px; background-color: khaki;">
+            Special thanks to Mr. Nguyen Tuan Minh for supporting us
+        </div>
+    </div>
+    <!-- Nhạc -->
+    <audio id='nhac' preload="auto" loop src="Home/Music/nhacnen.mp3">
+    </audio>
+    <audio id="hover" preload="auto">
+        <source src="Home/Music/Pop up sound effect (mp3cut.net).mp3" type="audio/mp3">
+    </audio>
+
+
+    <script src="./Home/home.js">
+    </script>
+
+
+
+</body>
+
+</html>

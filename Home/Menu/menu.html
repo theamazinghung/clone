@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="menu.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Viga&display=swap" rel="stylesheet">
+    <!-- Jquery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <!-- Back home -->
+    <a href="../../index.html">
+        <img src="../Photos/home.png" style="display: inline; margin-left:50px; float: left;">
+    </a>
+    <!-- Choose topic -->
+    <div class="title">Menu</div>
+    <div class="question">
+        <div class="des">
+            <img style="width:30%; padding-top:40px" src="../Photos/choose-fixed.png">
+            <div id="choose">
+                Please choose your favourite topic!!!
+            </div>
+        </div>
+        <!-- Nhạc -->
+        <audio id='nhac' preload="auto" loop>
+            <source src="../Music/nhacnen.mp3" type="audio/mp3">
+            </source>
+        </audio>
+        <audio id="hover" preload="auto">
+            <source src="../Music/Pop up sound effect (mp3cut.net).mp3" type="audio/mp3">
+        </audio>
+        <!-- Menu -->
+        <nav class="menu">
+            <input type="checkbox" class="menu-open" name="menu-open" id="menu-open" />
+            <label class="menu-open-button" for="menu-open">
+                <span class="lines line-1"></span>
+                <span class="lines line-2"></span>
+                <span class="lines line-3"></span>
+            </label>
+            <!-- ​animals -->
+            <a id="animal" href="../Play/snake_final_5.html" class="menu-item yellow">
+                <img style="width:110%; height:auto;" src="../Photos/bear3.png"> </a>
+            <!-- Foods -->
+            <a id="food" href="../Play/snake_final_5.html" class="menu-item green">
+                <img src="../Photos/food2.png" style="width:110%; height:auto"></a>
+            <!-- Thời tiết -->
+            <a id="weather" href="../Play/snake_final_5.html" class="menu-item red">
+                <img src="../Photos/weather (1).png" style="width:88%; height:auto"> </a>
+            <!-- Quần áo -->
+            <a id="clothes" href="../Play/snake_final_5.html" class="menu-item brown">
+                <img style="width:100%; height:auto;" src="../Photos/clothes.png"> </a>
+                <!-- My home -->
+            <a id="house" href="../Play/snake_final_5.html" class="menu-item gray">
+                <img src="../Photos/home (1).png" style="width:85%; height:auto">
+            </a>
+            <!-- Transport -->
+            <a id="transport" href="../Play/snake_final_5.html" class="menu-item lightblue">
+                <img src="../Photos/transports.png" style="width:90%; height:auto">
+            </a>
+        </nav>
+    </div>
+    <script>
+        // Nhạc nền
+        var nhac = $("#nhac")[0];
+        $("body")
+            .mouseover(function () {
+                nhac.play();
+            });
+        // Mở list
+        var hover = $("#hover")[0]
+        $('label')
+            .click(function () {
+                hover.play();
+            });
+        // Add topic
+        $(".menu-item").click(function () {
+            console.log(this);
+            localStorage.setItem("selected", `${this.id}`);
+        });
+
+    </script>
+</body>
+
+</html>
